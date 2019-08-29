@@ -6,7 +6,14 @@ interface TaskManagerProps {
 }
 
 interface TaskManagerState {
-    test: string
+    procesos: Array<Proceso>
+}
+
+type Proceso = {
+    id: number,
+    ram: number,
+    cpu: number,
+    hdd: number
 }
 
 export default class TaskManager extends React.Component<TaskManagerProps, TaskManagerState> {
