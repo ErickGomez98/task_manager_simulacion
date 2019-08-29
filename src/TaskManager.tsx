@@ -1,7 +1,22 @@
-interface TaskManagerI{
+import React from 'react';
 
+
+interface TaskManagerProps {
+    test: string
 }
 
-export default class TaskManager implements TaskManagerI {
+interface TaskManagerState {
+    test: string
+}
 
+export default class TaskManager extends React.Component<TaskManagerProps, TaskManagerState> {
+
+
+
+
+    render(){
+        return (
+            <h1>{this.props.test}</h1>
+        )
+    }
 }
