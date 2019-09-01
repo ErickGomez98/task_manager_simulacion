@@ -1,6 +1,7 @@
 import React from 'react';
 import CpuManager from './CpuManager';
 
+
 interface TaskManagerProps {
     test: string
 }
@@ -50,6 +51,8 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
 
 
     render() {
+        const { procesos } = this.state;
+
         return (
             <div>
                 <h1>{this.props.test}</h1>
@@ -59,7 +62,8 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                 })}
                 </div>
 
-                <CpuManager />
+                <CpuManager data={[]} />
+
             </div>
         )
     }
