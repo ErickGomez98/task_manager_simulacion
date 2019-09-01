@@ -132,15 +132,18 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
         const newProceso: Proceso = this.state.procesos[index];
         newProceso.timeCreated = Math.floor(+ new Date() / 1000);
         newProceso.timeExpiration = newProceso.timeCreated + newProceso.executionTime;
-        const newProcesos: Array<Proceso> = this.state.procesos.filter(item => item.id !== processId);
 
-        this.setState((state) => {
-            const newProcesosActivos: Array<Proceso> = [...state.procesosActivos, newProceso];
-            return {
-                procesosActivos: newProcesosActivos,
-                procesos: newProcesos
-            }
-        })
+        if (this.validarDisponibilidad(newProceso)) {
+            const newProcesos: Array<Proceso> = this.state.procesos.filter(item => item.id !== processId);
+
+            this.setState((state) => {
+                const newProcesosActivos: Array<Proceso> = [...state.procesosActivos, newProceso];
+                return {
+                    procesosActivos: newProcesosActivos,
+                    procesos: newProcesos
+                }
+            });
+        }
     }
 
     /**
@@ -158,6 +161,9 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
 
         this.setState((state) => {
             const newProcesosFinalizados: Array<Proceso> = [...state.procesosFinalizados, newProceso];
+
+            newProcesosFinalizados.sort((a, b) => b.cpu - a.cpu);
+
             return {
                 procesosActivos: newProcesosActivos,
                 procesosFinalizados: newProcesosFinalizados
@@ -177,8 +183,24 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
     /**
      * Función para validar que si se pueda ingresar un proceso, que si existan recursos.
      */
-    validarDisponibilidad(): boolean {
+    validarDisponibilidad(proceso: Proceso): boolean {
+        let totalCpu: number = 0;
+        let totalHdd: number = 0;
+        let totalRam: number = 0;
+
+        this.state.procesosActivos.map((item) => {
+            totalCpu += item.cpu;
+            totalRam += item.ram;
+            totalHdd += item.hdd;
+        });
+
+        if (totalCpu + proceso.cpu > 100 || totalHdd + proceso.hdd > 100 || totalRam + proceso.ram > 100) {
+            alert("No hay recursos suficientes para agregar el proceso");
+            return false;
+        }
+
         return true;
+
     }
 
 
