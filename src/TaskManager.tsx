@@ -45,9 +45,9 @@ type Proceso = {
     executionTime: number
 }
 
-const ListItem: React.FunctionComponent<Proceso> = (props) => {
+const ListItem: React.FunctionComponent<any> = (props) => {
     return (
-        <div className="list-item" key={props.id}>
+        <div className="list-item" onClick={() => props.action(props.id)}>
             <div className="list-item-id">{props.id}</div>
             <div className="list-item-nombre">{props.nombre}</div>
             <div className="list-item-cpu">{props.cpu} %</div>
@@ -91,6 +91,41 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
     }
 
 
+    /**
+     * Trata de agregar el proceso a la lista de procesos activos
+     *
+     * @memberof TaskManager
+     */
+    agregarProceso = (processId: number) => {
+        console.log(processId);
+    }
+
+    /**
+     * Agrega el proceso a la lista de procesos finalizados
+     *
+     * @memberof TaskManager
+     */
+    eliminarProceso = (processId: number) => {
+        console.log(processId);
+    }
+
+    /**
+     * Trata de agregar el proceso a la lista de procesos activos
+     *
+     * @memberof TaskManager
+     */
+    reactivarProceso = (processId: number) => {
+        console.log(processId);
+    }
+
+    /**
+     * Función para validar que si se pueda ingresar un proceso, que si existan recursos.
+     */
+    validarDisponibilidad(): boolean {
+        return true;
+    }
+
+
     render() {
         const { procesos } = this.state;
         let totalCpu: number = 0;
@@ -123,7 +158,8 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                                 </div>
                                 <div className="list-procesos">
                                     <div>{this.state.procesos.map((item) => {
-                                        return <ListItem {...item} />
+                                        return <ListItem key={item.id}
+                                            action={(processId: number) => this.agregarProceso(processId)} {...item} />
                                     })}
                                     </div>
                                 </div>
@@ -140,7 +176,8 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                                 </div>
                                 <div className="list-procesos-activos">
                                     <div>{this.state.procesos.map((item) => {
-                                        return <ListItem {...item} />
+                                        return <ListItem key={item.id}
+                                            action={(processId: number) => this.eliminarProceso(processId)} {...item} />
                                     })}
                                     </div>
                                 </div>
@@ -157,7 +194,8 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                                 </div>
                                 <div className="list-procesos-finalizados">
                                     <div>{this.state.procesos.map((item) => {
-                                        return <ListItem {...item} />
+                                        return <ListItem key={item.id}
+                                            action={(processId: number) => this.reactivarProceso(processId)} {...item} />
                                     })}
                                     </div>
                                 </div>
