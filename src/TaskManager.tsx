@@ -1,5 +1,7 @@
 import React from 'react';
 import CpuManager from './CpuManager';
+import HddManager from './HddManager';
+import RamManager from './RamManager';
 import './App.css';
 
 interface TaskManagerProps {
@@ -55,8 +57,13 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
     render() {
         const { procesos } = this.state;
         let totalCpu: number = 0;
+        let totalHdd: number = 0;
+        let totalRam: number = 0;
+
         procesos.map((item) => {
             totalCpu += item.cpu;
+            totalRam += item.ram;
+            totalHdd += item.hdd;
         })
 
         return (
@@ -91,10 +98,10 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                                 <CpuManager data={totalCpu} />
                             </div>
                             <div className="ram-grafica">
-                                <CpuManager data={totalCpu} />
+                                <RamManager data={totalHdd} />
                             </div>
                             <div className="hdd-grafica">
-                                <CpuManager data={totalCpu} />
+                                <HddManager data={totalRam} />
                             </div>
                         </div>
                     </div>
