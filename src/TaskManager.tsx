@@ -103,6 +103,15 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
      */
     agregarProceso = (processId: number) => {
         console.log(processId);
+        const index: number = this.state.procesos.findIndex(item => item.id === processId);
+        const newProceso: Proceso = this.state.procesos[index];
+
+        this.setState((state) => {
+            const newArr: Array<Proceso> = [...state.procesosActivos, newProceso];
+            return {
+                procesosActivos: newArr
+            }
+        })
     }
 
     /**

@@ -22,6 +22,13 @@ export default class RamManager extends React.Component<RamManagerProps, RamMana
         });
     }
 
+    shouldComponentUpdate() {
+        // Se tiene que hacer de esta manera porque cada vez que actualizó 
+        // data se vuelve a inicializar la grafica, entonces de esta manera
+        // nunca se va a actualizar pero si va a estar actualizando los valores.
+        return false;
+    }
+
     render() {
         return (
             <Line

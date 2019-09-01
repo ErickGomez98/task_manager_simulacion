@@ -22,6 +22,21 @@ export default class CpuManager extends React.Component<CpuManagerProps, CpuMana
         });
     }
 
+    componentDidMount() {
+        console.log("q");
+    }
+
+    componentDidUpdate() {
+        console.log("updte");
+    }
+
+    shouldComponentUpdate() {
+        // Se tiene que hacer de esta manera porque cada vez que actualizó 
+        // data se vuelve a inicializar la grafica, entonces de esta manera
+        // nunca se va a actualizar pero si va a estar actualizando los valores.
+        return false;
+    }
+
     render() {
         return (
             <Line
