@@ -1,5 +1,5 @@
 import React from 'react';
-import { Doughnut } from 'react-chartjs-2';
+import CpuManager from './CpuManager';
 
 interface TaskManagerProps {
     test: string
@@ -10,7 +10,7 @@ interface TaskManagerState {
     cantidadProcesos: number
 }
 
-type Proceso = {
+export type Proceso = {
     id: number,
     ram: number,
     cpu: number,
@@ -25,8 +25,8 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
     };
 
 
-    generarProcesos(){
-        for(let i: number = 0; i < this.state.cantidadProcesos; i++){
+    generarProcesos() {
+        for (let i: number = 0; i < this.state.cantidadProcesos; i++) {
             const newProceso: Proceso = {
                 id: i,
                 ram: Math.floor((Math.random() * 100) + 1),
@@ -44,12 +44,12 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
     }
 
 
-    componentDidMount(){
+    componentDidMount() {
         this.generarProcesos();
     }
 
 
-    render(){
+    render() {
         return (
             <div>
                 <h1>{this.props.test}</h1>
@@ -59,16 +59,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                 })}
                 </div>
 
-                <Doughnut data={{
-                    datasets: [{
-                        data: [10,20,30]
-                    }],
-                    labels: [
-                        'red',
-                        'green',
-                        'blue'
-                    ]
-                }} />
+                <CpuManager />
             </div>
         )
     }

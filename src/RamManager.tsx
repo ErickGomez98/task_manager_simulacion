@@ -1,5 +1,15 @@
-import DataGraph from "./DataGraph";
+import React from 'react';
+import { Proceso } from './TaskManager';
 
-export default class RamManager extends DataGraph {
+interface TaskManagerProps {
+    test: string
+}
+
+interface TaskManagerState {
+    procesos: Array<Proceso>,
+    cantidadProcesos: number
+}
+
+export default class RamManagerextends extends React.Component<TaskManagerProps, TaskManagerState> {
 
 };
