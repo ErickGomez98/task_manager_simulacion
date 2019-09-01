@@ -74,9 +74,9 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
             const newProceso: Proceso = {
                 nombre: nombres[i],
                 id: Math.floor((Math.random() * 10000) + 1),
-                ram: Math.floor((Math.random() * 100) + 1),
-                cpu: Math.floor((Math.random() * 100) + 1),
-                hdd: Math.floor((Math.random() * 100) + 1),
+                ram: Math.floor((Math.random() * 25) + 1),
+                cpu: Math.floor((Math.random() * 25) + 1),
+                hdd: Math.floor((Math.random() * 10) + 1),
                 executionTime: Math.floor((Math.random() * 20) + 1),
             };
 
