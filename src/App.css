@@ -42,7 +42,6 @@ body, html {
 .lista-procesos .list-procesos, .procesos-activos .list-procesos-activos, .procesos-finalizados .list-procesos-finalizados {
   margin: 5px 10px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-  min-height: 450px;
 }
 
 .lista-procesos h2, .procesos-activos h2, .procesos-finalizados h2 {
