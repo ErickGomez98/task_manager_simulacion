@@ -19,6 +19,7 @@ body, html {
 .procesos-container, .container-graficas{
   width: 100%;
   float:left;
+  margin-bottom: 40px;
 }
 
 .procesos-container > div:first {
@@ -37,3 +38,20 @@ body, html {
   width: 33%;
   float: left;
 }
+
+.lista-procesos .list-procesos, .procesos-activos .list-procesos-activos, .procesos-finalizados .list-procesos-finalizados {
+  margin: 5px 10px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  min-height: 450px;
+}
+
+.lista-procesos h2, .procesos-activos h2, .procesos-finalizados h2 {
+  margin: 5px 10px;
+  text-align: center;
+}
+
+.list-item{ 
+  padding: 5px 7px;
+  border-bottom: 1px solid #e3e3e3;
+}
+

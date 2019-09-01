@@ -14,12 +14,20 @@ interface TaskManagerState {
     cantidadProcesos: number
 }
 
-export type Proceso = {
+type Proceso = {
     id: number,
     ram: number,
     cpu: number,
     hdd: number,
     executionTime: number
+}
+
+const ListItem: React.FunctionComponent<Proceso> = (props) => {
+    return (
+        <div className="list-item" key={props.id}>
+            {props.id}
+        </div>
+    )
 }
 
 export default class TaskManager extends React.Component<TaskManagerProps, TaskManagerState> {
@@ -33,7 +41,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
     generarProcesos() {
         for (let i: number = 0; i < this.state.cantidadProcesos; i++) {
             const newProceso: Proceso = {
-                id: i,
+                id: Math.floor((Math.random() * 10000) + 1),
                 ram: Math.floor((Math.random() * 100) + 1),
                 cpu: Math.floor((Math.random() * 100) + 1),
                 hdd: Math.floor((Math.random() * 100) + 1),
@@ -76,19 +84,30 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                         <div>
                             <div className="lista-procesos">
                                 <h2>Procesos</h2>
-                                <div>
+                                <div className="list-procesos">
                                     <div>{this.state.procesos.map((item) => {
-                                        console.log(item);
-                                        return <p>{item.id}</p>;
+                                        return <ListItem {...item} />
                                     })}
                                     </div>
                                 </div>
                             </div>
                             <div className="procesos-activos">
                                 <h2>Procesos Activos</h2>
+                                <div className="list-procesos-activos">
+                                    <div>{this.state.procesos.map((item) => {
+                                        return <ListItem {...item} />
+                                    })}
+                                    </div>
+                                </div>
                             </div>
                             <div className="procesos-finalizados">
                                 <h2>Procesos Finalizados</h2>
+                                <div className="list-procesos-finalizados">
+                                    <div>{this.state.procesos.map((item) => {
+                                        return <ListItem {...item} />
+                                    })}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
