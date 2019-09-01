@@ -43,7 +43,9 @@ type Proceso = {
     ram: number,
     cpu: number,
     hdd: number,
-    executionTime: number
+    executionTime: number,
+    timeCreated: number,
+    timeExpiration: number
 }
 
 const ListItem: React.FunctionComponent<any> = (props) => {
@@ -78,6 +80,8 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                 cpu: Math.floor((Math.random() * 25) + 1),
                 hdd: Math.floor((Math.random() * 10) + 1),
                 executionTime: Math.floor((Math.random() * 20) + 1),
+                timeCreated: 0,
+                timeExpiration: 0
             };
 
             listProcesos.push(newProceso);
@@ -93,7 +97,29 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
 
     componentDidMount() {
         this.generarProcesos();
+        this.eliminarProcesosCaducos();
     }
+
+
+    /**
+     * Esta función está checando la lista de procesos activos y elimina
+     * aquellos procesos que ya se les acabo el tiempo
+     *
+     * @memberof TaskManager
+     */
+    eliminarProcesosCaducos() {
+        setInterval(() => {
+            this.state.procesosActivos.map(proceso => {
+                const currentDate = Math.floor(+ new Date() / 1000);
+                if (currentDate > proceso.timeExpiration) {
+                    // Ya se terminó el proceso, ahora quitarlo de la lista de activos y moverlo 
+                    // a la lista de eliminados.
+                    this.eliminarProceso(proceso.id);
+                }
+            });
+        }, 100);
+    }
+
 
 
     /**
@@ -102,9 +128,10 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
      * @memberof TaskManager
      */
     agregarProceso = (processId: number) => {
-        console.log(processId);
         const index: number = this.state.procesos.findIndex(item => item.id === processId);
         const newProceso: Proceso = this.state.procesos[index];
+        newProceso.timeCreated = Math.floor(+ new Date() / 1000);
+        newProceso.timeExpiration = newProceso.timeCreated + newProceso.executionTime;
         const newProcesos: Array<Proceso> = this.state.procesos.filter(item => item.id !== processId);
 
         this.setState((state) => {
@@ -122,7 +149,20 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
      * @memberof TaskManager
      */
     eliminarProceso = (processId: number) => {
-        console.log(processId);
+        const index: number = this.state.procesosActivos.findIndex(item => item.id === processId);
+        const newProceso: Proceso = this.state.procesosActivos[index];
+        newProceso.timeCreated = 0;
+        newProceso.timeExpiration = 0;
+
+        const newProcesosActivos: Array<Proceso> = this.state.procesosActivos.filter(item => item.id !== processId);
+
+        this.setState((state) => {
+            const newProcesosFinalizados: Array<Proceso> = [...state.procesosFinalizados, newProceso];
+            return {
+                procesosActivos: newProcesosActivos,
+                procesosFinalizados: newProcesosFinalizados
+            }
+        });
     }
 
     /**
