@@ -59,6 +59,9 @@ export default class HddManager extends React.Component<HddManagerProps, HddMana
                             scaleLabel: {
                                 display: true,
                                 labelString: '% de Uso'
+                            },
+                            ticks: {
+                                suggestedMax: 100
                             }
                         }]
                     },

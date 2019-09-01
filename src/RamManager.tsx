@@ -59,6 +59,9 @@ export default class RamManager extends React.Component<RamManagerProps, RamMana
                             scaleLabel: {
                                 display: true,
                                 labelString: '% de Uso'
+                            },
+                            ticks: {
+                                suggestedMax: 100
                             }
                         }]
                     },
