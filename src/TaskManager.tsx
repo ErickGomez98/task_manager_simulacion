@@ -1,13 +1,14 @@
 import React from 'react';
 import CpuManager from './CpuManager';
-
+import './App.css';
 
 interface TaskManagerProps {
-    test: string
+    title: string
 }
 
 interface TaskManagerState {
     procesos: Array<Proceso>,
+    procesosActivos: Array<Proceso>,
     cantidadProcesos: number
 }
 
@@ -22,6 +23,7 @@ export type Proceso = {
 export default class TaskManager extends React.Component<TaskManagerProps, TaskManagerState> {
     state: TaskManagerState = {
         procesos: [],
+        procesosActivos: [],
         cantidadProcesos: 15
     };
 
@@ -52,18 +54,51 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
 
     render() {
         const { procesos } = this.state;
+        let totalCpu: number = 0;
+        procesos.map((item) => {
+            totalCpu += item.cpu;
+        })
 
         return (
-            <div>
-                <h1>{this.props.test}</h1>
-                <div>{this.state.procesos.map((item) => {
-                    console.log(item);
-                    return <p>{item.id}</p>;
-                })}
+            <div className="main-container">
+                <div className="title">
+                    <h1>{this.props.title}</h1>
                 </div>
-
-                <CpuManager data={[]} />
-
+                <div className="content">
+                    <div className="procesos-container">
+                        <div>
+                            <div className="lista-procesos">
+                                <h2>Procesos</h2>
+                                <div>
+                                    <div>{this.state.procesos.map((item) => {
+                                        console.log(item);
+                                        return <p>{item.id}</p>;
+                                    })}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="procesos-activos">
+                                <h2>Procesos Activos</h2>
+                            </div>
+                            <div className="procesos-finalizados">
+                                <h2>Procesos Finalizados</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="container-graficas">
+                        <div>
+                            <div className="cpu-grafica">
+                                <CpuManager data={totalCpu} />
+                            </div>
+                            <div className="ram-grafica">
+                                <CpuManager data={totalCpu} />
+                            </div>
+                            <div className="hdd-grafica">
+                                <CpuManager data={totalCpu} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

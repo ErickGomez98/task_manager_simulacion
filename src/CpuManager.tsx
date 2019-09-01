@@ -1,10 +1,9 @@
 import React from 'react';
 import 'chartjs-plugin-streaming';
 import { Line } from 'react-chartjs-2';
-import { Proceso } from './TaskManager';
 
 type CpuManagerProps = {
-    data: Array<Proceso>
+    data: number
 }
 
 type CpuManagerState = {
@@ -13,9 +12,17 @@ type CpuManagerState = {
 
 export default class CpuManager extends React.Component<CpuManagerProps, CpuManagerState>  {
 
-    render() {
-        const { data } = this.props;
+    refreshData(chart: any) {
+        const current = this.props.data;
+        chart.data.datasets.forEach(function (dataset: any) {
+            dataset.data.push({
+                x: Date.now(),
+                y: current
+            });
+        });
+    }
 
+    render() {
         return (
             <Line
                 data={{
@@ -36,13 +43,8 @@ export default class CpuManager extends React.Component<CpuManagerProps, CpuMana
                                 delay: 1000,
                                 refresh: 1000,
                                 duration: 60000,
-                                onRefresh: function (chart: any) {
-                                    chart.data.datasets.forEach(function (dataset: any) {
-                                        dataset.data.push({
-                                            x: Date.now(),
-                                            y: Math.floor((Math.random() * 100) + 1)
-                                        });
-                                    });
+                                onRefresh: (chart: any) => {
+                                    this.refreshData(chart);
                                 },
                             }
                         }],

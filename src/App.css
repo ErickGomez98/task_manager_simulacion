@@ -1,33 +1,39 @@
-.App {
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+body, html {
+  font-family: 'Roboto', sans-serif;
+}
+.main-container {
+  width: 100%;
+}
+
+.title {
+  width: 100%;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.content {
+  width: 100%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.procesos-container, .container-graficas{
+  width: 100%;
+  float:left;
 }
 
-.App-link {
-  color: #61dafb;
+.procesos-container > div:first {
+  width: 100%;
+}
+.procesos-container .lista-procesos, .procesos-activos, .procesos-finalizados{
+  width: 33%;
+  float: left;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container-graficas > div:fisrt{
+  width: 100%;
+}
+
+.container-graficas .cpu-grafica, .ram-grafica, .hdd-grafica{
+  width: 33%;
+  float: left;
 }
