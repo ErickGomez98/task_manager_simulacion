@@ -69,6 +69,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
 
 
     generarProcesos() {
+        const listProcesos: Array<Proceso> = [];
         for (let i: number = 0; i < this.state.cantidadProcesos; i++) {
             const newProceso: Proceso = {
                 nombre: nombres[i],
@@ -78,13 +79,15 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                 hdd: Math.floor((Math.random() * 100) + 1),
                 executionTime: Math.floor((Math.random() * 20) + 1),
             };
-            this.setState((state) => {
-                const newArr: Array<Proceso> = [...state.procesos, newProceso];
-                return {
-                    procesos: newArr
-                }
-            });
+
+            listProcesos.push(newProceso);
         }
+
+        // Ordenar por prioridad, el que tenga más CPU
+        listProcesos.sort((a, b) => b.cpu - a.cpu);
+
+        this.setState({ procesos: listProcesos });
+
     }
 
 
@@ -129,12 +132,12 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
 
 
     render() {
-        const { procesos } = this.state;
+        const { procesosActivos } = this.state;
         let totalCpu: number = 0;
         let totalHdd: number = 0;
         let totalRam: number = 0;
 
-        procesos.map((item) => {
+        procesosActivos.map((item) => {
             totalCpu += item.cpu;
             totalRam += item.ram;
             totalHdd += item.hdd;
