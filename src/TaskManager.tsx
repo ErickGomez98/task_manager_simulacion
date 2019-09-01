@@ -11,6 +11,7 @@ interface TaskManagerProps {
 interface TaskManagerState {
     procesos: Array<Proceso>,
     procesosActivos: Array<Proceso>,
+    procesosFinalizados: Array<Proceso>,
     cantidadProcesos: number
 }
 
@@ -62,6 +63,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
     state: TaskManagerState = {
         procesos: [],
         procesosActivos: [],
+        procesosFinalizados: [],
         cantidadProcesos: 15
     };
 
@@ -175,7 +177,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                                     <div>Tiempo</div>
                                 </div>
                                 <div className="list-procesos-activos">
-                                    <div>{this.state.procesos.map((item) => {
+                                    <div>{this.state.procesosActivos.map((item) => {
                                         return <ListItem key={item.id}
                                             action={(processId: number) => this.eliminarProceso(processId)} {...item} />
                                     })}
@@ -193,7 +195,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                                     <div>Tiempo</div>
                                 </div>
                                 <div className="list-procesos-finalizados">
-                                    <div>{this.state.procesos.map((item) => {
+                                    <div>{this.state.procesosFinalizados.map((item) => {
                                         return <ListItem key={item.id}
                                             action={(processId: number) => this.reactivarProceso(processId)} {...item} />
                                     })}
