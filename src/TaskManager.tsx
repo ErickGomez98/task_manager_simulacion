@@ -177,7 +177,23 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
      * @memberof TaskManager
      */
     reactivarProceso = (processId: number) => {
-        console.log(processId);
+        const index: number = this.state.procesosFinalizados.findIndex(item => item.id === processId);
+        const newProceso: Proceso = this.state.procesosFinalizados[index];
+        console.log(newProceso);
+        newProceso.timeCreated = Math.floor(+ new Date() / 1000);
+        newProceso.timeExpiration = newProceso.timeCreated + newProceso.executionTime;
+
+        if (this.validarDisponibilidad(newProceso)) {
+            const newProcesos: Array<Proceso> = this.state.procesosFinalizados.filter(item => item.id !== processId);
+
+            this.setState((state) => {
+                const newProcesosActivos: Array<Proceso> = [...state.procesosActivos, newProceso];
+                return {
+                    procesosActivos: newProcesosActivos,
+                    procesosFinalizados: newProcesos
+                }
+            });
+        }
     }
 
     /**
