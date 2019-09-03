@@ -302,10 +302,10 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                                 <CpuManager data={totalCpu} />
                             </div>
                             <div className="ram-grafica">
-                                <RamManager data={totalHdd} />
+                                <RamManager data={totalRam} />
                             </div>
                             <div className="hdd-grafica">
-                                <HddManager data={totalRam} />
+                                <HddManager data={totalHdd} />
                             </div>
                         </div>
                     </div>
