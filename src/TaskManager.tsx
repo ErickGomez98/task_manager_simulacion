@@ -159,6 +159,83 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
 
         const newProcesosActivos: Array<Proceso> = this.state.procesosActivos.filter(item => item.id !== processId);
 
+        // Ahora sacar el proceso de más prioridad, el que consuma más cpu, pa eso hay que ordenar el array y
+        // simplemente tomar el primer elemento
+        newProcesosActivos.sort((a, b) => b.cpu - a.cpu);
+
+        if (newProcesosActivos.length > 0) {
+            // Verificar que no se pase del 100 para que no de mas recursos de los que existen
+            if (newProcesosActivos[0].cpu + newProceso.cpu > 100) {
+                newProcesosActivos[0].cpu = 100 - newProcesosActivos[0].cpu;
+            } else {
+                newProcesosActivos[0].cpu = newProcesosActivos[0].cpu + newProceso.cpu;
+            }
+
+            if (newProcesosActivos[0].ram + newProceso.ram > 100) {
+                newProcesosActivos[0].ram = 100 - newProcesosActivos[0].ram;
+            } else {
+                newProcesosActivos[0].ram = newProcesosActivos[0].ram + newProceso.ram;
+            }
+
+            if (newProcesosActivos[0].hdd + newProceso.hdd > 100) {
+                newProcesosActivos[0].hdd = 100 - newProcesosActivos[0].hdd;
+            } else {
+                newProcesosActivos[0].hdd = newProcesosActivos[0].hdd + newProceso.hdd;
+            }
+
+            // Volver a recalcular el tiempo:
+            /*
+                50%cpu       10s
+                
+
+                50           100%
+                17             ?%
+
+                (17 * 100) / 50 = 34%
+
+                50%cpu=100%   10s
+                17%cpu=34%    ?s
+                ------------------
+                100%          10s
+                34%           ?s
+
+                (34 * 10) / 100 = 3.4s
+
+                nuevo tiempo = 10s - (3.4s / 2 ) = 8.3
+
+
+
+
+                20            100%
+                60            ?
+
+
+                (60 * 100) / 20 = 300
+
+                20%cpu = 100      10s
+                60%cpu = 300        ?
+                ----------------------
+
+                (300 * 10) / 100 = 30s
+
+                nuevo tiempo = 10s - (30s / 2) = 15
+                
+
+
+
+
+
+
+            */
+        }
+
+
+
+
+
+
+
+
         this.setState((state) => {
             const newProcesosFinalizados: Array<Proceso> = [...state.procesosFinalizados, newProceso];
 
