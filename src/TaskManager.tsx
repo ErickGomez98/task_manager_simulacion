@@ -177,11 +177,6 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                 newProcesosActivos[0].ram = newProcesosActivos[0].ram + newProceso.ram;
             }
 
-            if (newProcesosActivos[0].hdd + newProceso.hdd > 100) {
-                newProcesosActivos[0].hdd = 100 - newProcesosActivos[0].hdd;
-            } else {
-                newProcesosActivos[0].hdd = newProcesosActivos[0].hdd + newProceso.hdd;
-            }
 
             // Volver a recalcular el tiempo:
             /*
