@@ -79,7 +79,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
                 ram: Math.floor((Math.random() * 25) + 1),
                 cpu: Math.floor((Math.random() * 25) + 1),
                 hdd: Math.floor((Math.random() * 10) + 1),
-                executionTime: Math.floor((Math.random() * 20) + 1),
+                executionTime: Math.floor((Math.random() * 40) + 1),
                 timeCreated: 0,
                 timeExpiration: 0
             };
@@ -162,7 +162,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
         // Ahora sacar el proceso de más prioridad, el que consuma más cpu, pa eso hay que ordenar el array y
         // simplemente tomar el primer elemento
         newProcesosActivos.sort((a, b) => b.cpu - a.cpu);
-
+        let newCpuTotal: number = 0;
         if (newProcesosActivos.length > 0) {
             // Verificar que no se pase del 100 para que no de mas recursos de los que existen
             if (newProcesosActivos[0].cpu + newProceso.cpu > 100) {
@@ -170,7 +170,7 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
             } else {
                 newProcesosActivos[0].cpu = newProcesosActivos[0].cpu + newProceso.cpu;
             }
-
+            newCpuTotal = newProcesosActivos[0].cpu;
             if (newProcesosActivos[0].ram + newProceso.ram > 100) {
                 newProcesosActivos[0].ram = 100 - newProcesosActivos[0].ram;
             } else {
@@ -185,56 +185,12 @@ export default class TaskManager extends React.Component<TaskManagerProps, TaskM
 
             // Volver a recalcular el tiempo:
             /*
-                50%cpu       10s
-                
-
-                50           100%
-                17             ?%
-
-                (17 * 100) / 50 = 34%
-
-                50%cpu=100%   10s
-                17%cpu=34%    ?s
-                ------------------
-                100%          10s
-                34%           ?s
-
-                (34 * 10) / 100 = 3.4s
-
-                nuevo tiempo = 10s - (3.4s / 2 ) = 8.3
-
-
-
-
-                20            100%
-                60            ?
-
-
-                (60 * 100) / 20 = 300
-
-                20%cpu = 100      10s
-                60%cpu = 300        ?
-                ----------------------
-
-                (300 * 10) / 100 = 30s
-
-                nuevo tiempo = 10s - (30s / 2) = 15
-                
-
-
-
-
-
-
+                (cpu actual + nuevo cpu) / 10 = segundos a quitar en tiempo
             */
+
+            newProcesosActivos[0].executionTime = + Math.floor(newProcesosActivos[0].executionTime - (newCpuTotal / 10));
+            newProcesosActivos[0].timeExpiration = newProcesosActivos[0].timeCreated + newProcesosActivos[0].executionTime;
         }
-
-
-
-
-
-
-
 
         this.setState((state) => {
             const newProcesosFinalizados: Array<Proceso> = [...state.procesosFinalizados, newProceso];
